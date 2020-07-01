@@ -19,6 +19,11 @@ const costDisplay = document.createElement('h3');
   costDisplay.textContent = '$0'
 const activityChecks = activities.querySelectorAll('input');
 
+const userPayment = document.getElementById('payment');
+const paymentOptions = userPayment.querySelectorAll('option');
+const CCDiv = document.getElementById('credit-card');
+const paypalDiv = document.getElementById('paypal');
+const bitcoinDiv = document.getElementById('bitcoin');
 
 
 // Focus on the name field when page loads
@@ -94,5 +99,36 @@ activities.addEventListener("change", e => {
         activityChecks[i].disabled = false;
       }
     }
+  }
+});
+
+// Hides the 'select payment method' option
+
+for (i = 0; i < paymentOptions.length; i++) {
+  if (paymentOptions[i].value === 'select method') {
+    paymentOptions[i].style.display = 'none';
+  }
+}
+
+// Hides or displays relevant payment types as selected
+
+CCDiv.style.display = 'none';
+paypalDiv.style.display = 'none';
+bitcoinDiv.style.display = 'none';
+
+userPayment.addEventListener("change", e => {
+  const option = e.target;
+  if (option.value === 'credit card') {
+    CCDiv.style.display = '';
+    paypalDiv.style.display = 'none';
+    bitcoinDiv.style.display = 'none';
+  } else if (option.value === 'paypal') {
+    CCDiv.style.display = 'none';
+    paypalDiv.style.display = '';
+    bitcoinDiv.style.display = 'none';
+  } else if (option.value === 'bitcoin') {
+    CCDiv.style.display = 'none';
+    paypalDiv.style.display = 'none';
+    bitcoinDiv.style.display = '';
   }
 });
