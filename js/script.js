@@ -233,7 +233,7 @@ activities.addEventListener("change", e => {
 // Function checks that a valid credit card number has been entered
 function validCC() {
   const regex = /^\d{13,16}$/;
-  if (regex.test(ccNum.value)) {
+  if (ccNum.value !== '' && regex.test(ccNum.value)) {
     return true;
   } else {
     return false;
@@ -251,7 +251,7 @@ ccNum.addEventListener("blur", e => {
 // Function checks that a valid zip code has been entered
 function validZip() {
   const regex = /^\d{5}$/;
-  if (regex.test(zip.value)) {
+  if (zip.value !== '' && regex.test(zip.value)) {
     return true;
   } else {
     return false;
@@ -269,7 +269,7 @@ zip.addEventListener("blur", e => {
 // function checks that a valid cvv number has been entered
 function validCVV() {
   const regex = /^\d{3}$/;
-  if (regex.test(cvv.value)) {
+  if (cvv.value !== '' && regex.test(cvv.value)) {
     return true;
   } else {
     return false;
@@ -293,21 +293,30 @@ function validateAll() {
   const checkNum = validCC();
   const checkZip = validZip();
   const checkCVV =  validCVV();
-  if (userPayment.value !== 'credit card' && checkName 
-  && checkMail && checkActivity) {
-    return true;
+  if (userPayment.value === 'select method') {
+    return false;
   } else if (userPayment.value === 'credit card' && checkName
   && checkMail && checkActivity && checkNum && checkZip && checkCVV) {
+    return true; 
+  } else if (userPayment.value !== 'credit card' && checkName 
+  && checkMail && checkActivity) {
     return true;
   } else {
     return false;
   }
 }
 
+// Disables the submit button unless all inputs are valid
 const submitButton = document.querySelector('button');
   submitButton.disabled = 'true';
 document.addEventListener('change', e => {
+  console.log(String(validateAll()));
   if (validateAll()) {
     submitButton.disabled = '';;
+  } else {
+    submitButton.disabled = 'true';
   }
 });
+
+// //TO-DO
+// Write messages for when submit button is disabled
