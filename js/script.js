@@ -34,13 +34,13 @@ const cvv = document.getElementById('cvv');
 const submitButton = document.querySelector('button');
   submitButton.disabled = 'true';
 
-// Focus on the name field when page loads
+// Focuses on the name field when page loads
 nameField.focus();
 
-// Hides other job title text field
+// Hides 'other' job title text field
 otherTitle.style.display = "none";
 
-// Shows other job title text field when selected from dropdown
+// Shows other job title text field when other is selected
 titleSelect.addEventListener("change", e => {
   if (e.target.value === "other") {
     otherTitle.style.display = "";
@@ -50,7 +50,6 @@ titleSelect.addEventListener("change", e => {
 });
 
 // Filters available color options by t-shirt theme
-
 for (i = 0; i < colorOptions.length; i++) {
 colorOptions[i].style.display = "none";
 };
@@ -84,7 +83,6 @@ shirtDesign.addEventListener("change", e => {
 });
 
 // Disables overlapping activites and calculates activity cost
-
 activities.addEventListener("change", e => { 
   const input = e.target;
   const cost = parseInt(input.getAttribute("data-cost"), 10);
@@ -111,15 +109,13 @@ activities.addEventListener("change", e => {
 });
 
 // Hides the 'select payment method' option
-
 for (i = 0; i < paymentOptions.length; i++) {
   if (paymentOptions[i].value === 'select method') {
     paymentOptions[i].style.display = 'none';
   }
 }
 
-// Hides or displays relevant payment types as selected
-
+// Hides or displays relevant payment divs as selected
 CCDiv.style.display = 'none';
 paypalDiv.style.display = 'none';
 bitcoinDiv.style.display = 'none';
@@ -183,7 +179,7 @@ const cvvMessage = document.createElement('label');
 const submitMessage = document.createElement('label');
   submitButton.insertAdjacentElement('afterend', submitMessage);
   submitMessage.className = 'valid-message';
-  submitMessage.textContent = "Please correct any fields that are invalid or missing";
+  submitMessage.textContent = "Please correct fields that are invalid or missing";
   submitMessage.style.display = 'none';
 
 // Function checks that a name has been entered
@@ -316,7 +312,7 @@ function validateAll() {
 }
 
 // Disables the submit button unless all inputs are valid 
-// and displays an error message if button is disabled
+// and displays an error message if the submit button is disabled
 document.addEventListener('change', e => {
   console.log(String(validateAll()));
   if (validateAll()) {
