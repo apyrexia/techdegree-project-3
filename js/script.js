@@ -148,7 +148,7 @@ userPayment.addEventListener("change", e => {
 const nameMessage = document.createElement('label');
   name.insertAdjacentElement('afterend', nameMessage);  
   nameMessage.className = 'valid-message';
-  nameMessage.textContent = "Please enter a valid name";
+  nameMessage.textContent = "Please enter a name";
   nameMessage.style.display = 'none';
 const mailMessage = document.createElement('label');
   email.insertAdjacentElement('afterend', mailMessage);  
