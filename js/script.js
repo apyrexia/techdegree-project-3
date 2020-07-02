@@ -25,6 +25,11 @@ const CCDiv = document.getElementById('credit-card');
 const paypalDiv = document.getElementById('paypal');
 const bitcoinDiv = document.getElementById('bitcoin');
 
+const name = document.getElementById('name');
+const email = document.getElementById('mail');
+const ccNum = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
 
 // Focus on the name field when page loads
 nameField.focus();
@@ -130,5 +135,179 @@ userPayment.addEventListener("change", e => {
     CCDiv.style.display = 'none';
     paypalDiv.style.display = 'none';
     bitcoinDiv.style.display = '';
+  }
+});
+
+//** */
+//
+// Validation
+//
+//** */
+
+// Creates validation messages
+const nameMessage = document.createElement('label');
+  name.insertAdjacentElement('afterend', nameMessage);  
+  nameMessage.className = 'valid-message';
+  nameMessage.textContent = "Please enter a valid name";
+  nameMessage.style.display = 'none';
+const mailMessage = document.createElement('label');
+  email.insertAdjacentElement('afterend', mailMessage);  
+  mailMessage.className = 'valid-message';
+  mailMessage.textContent = "Please enter a valid email";
+  mailMessage.style.display = 'none';
+const activityMessage = document.createElement('label');
+  activities.insertAdjacentElement('afterend', activityMessage);  
+  activityMessage.className = 'valid-message';
+  activityMessage.textContent = "Please select at least one activity";
+  activityMessage.style.display = 'none';
+
+const numMessage = document.createElement('label');
+  ccNum.insertAdjacentElement('afterend', numMessage);  
+  numMessage.className = 'valid-message';
+  numMessage.textContent = "Please enter a valid credit card number";
+  numMessage.style.display = 'none';
+const zipMessage = document.createElement('label');
+  zip.insertAdjacentElement('afterend', zipMessage);  
+  zipMessage.className = 'valid-message';
+  zipMessage.textContent = "Please enter a valid five digit zip code";
+  zipMessage.style.display = 'none';
+const cvvMessage = document.createElement('label');
+  cvv.insertAdjacentElement('afterend', cvvMessage);  
+  cvvMessage.className = 'valid-message';
+  cvvMessage.textContent = "Please enter a CVV code";
+  cvvMessage.style.display = 'none';
+
+// Function checks that a name has been entered
+function validName() {
+  if (name.value) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Displays validation message if no name is entered
+name.addEventListener("blur", e => {
+  const vname = validName();
+  if (vname === true) {
+    nameMessage.style.display = 'none';
+  } else {
+    nameMessage.style.display = '';
+  }
+});
+// Function checks that the user has entered a valid email
+function validMail() {
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (email.value !== '' && regex.test(email.value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Displays validation message if an invalid email is entered
+email.addEventListener("blur", e => {
+  const vmail = validMail();
+  if (vmail === true) {
+    mailMessage.style.display = 'none';
+  } else {
+    mailMessage.style.display = '';
+  }
+});
+// Function validates that at least one activity is selected
+function activityChecked() {
+  for (i = 0; i < activityChecks.length; i++) {
+    if (activityChecks[i].checked) {
+      return true;
+    }
+  }
+  return false;
+}
+// Displays message if no activity is selected
+activities.addEventListener("change", e => { 
+  const vactivity = activityChecked();
+  if (vactivity === true) {
+    activityMessage.style.display = 'none';
+  } else {
+    activityMessage.style.display = '';
+  }
+});
+// Function checks that a valid credit card number has been entered
+function validCC() {
+  const regex = /^\d{13,16}$/;
+  if (regex.test(ccNum.value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Displays message if an invalid CC number is entered
+ccNum.addEventListener("blur", e => {
+  const cc = validCC();
+  if (cc === true) {
+    numMessage.style.display = 'none';
+  } else {
+    numMessage.style.display = '';
+  }
+});
+// Function checks that a valid zip code has been entered
+function validZip() {
+  const regex = /^\d{5}$/;
+  if (regex.test(zip.value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Displays message if an invalid zip code has been entered
+zip.addEventListener("blur", e => {
+  const vzip = validZip();
+  if (vzip === true) {
+    zipMessage.style.display = 'none';
+  } else {
+    zipMessage.style.display = '';
+  }
+});
+// function checks that a valid cvv number has been entered
+function validCVV() {
+  const regex = /^\d{3}$/;
+  if (regex.test(cvv.value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// Displays message if an invalid cvv number is entered
+cvv.addEventListener("blur", e => {
+  const vcvv = validCVV();
+  if (vcvv === true) {
+    cvvMessage.style.display = 'none';
+  } else {
+    cvvMessage.style.display = '';
+  }
+});
+
+// Master validation function
+function validateAll() {
+  const checkName = validName();
+  const checkMail = validMail();
+  const checkActivity = activityChecked();
+  const checkNum = validCC();
+  const checkZip = validZip();
+  const checkCVV =  validCVV();
+  if (userPayment.value !== 'credit card' && checkName 
+  && checkMail && checkActivity) {
+    return true;
+  } else if (userPayment.value === 'credit card' && checkName
+  && checkMail && checkActivity && checkNum && checkZip && checkCVV) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const submitButton = document.querySelector('button');
+  submitButton.disabled = 'true';
+document.addEventListener('change', e => {
+  if (validateAll()) {
+    submitButton.disabled = '';;
   }
 });

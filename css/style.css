@@ -180,6 +180,13 @@ option {
   clear: both;
 }
 
+.valid-message {
+	margin: 0px 0px 12px;
+	color: red;
+	font-style: italic;
+	font-size: small;
+}
+
 /* ================================= 
   Media Queries
 ==================================== */
