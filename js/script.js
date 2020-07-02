@@ -31,6 +31,9 @@ const ccNum = document.getElementById('cc-num');
 const zip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 
+const submitButton = document.querySelector('button');
+  submitButton.disabled = 'true';
+
 // Focus on the name field when page loads
 nameField.focus();
 
@@ -177,6 +180,12 @@ const cvvMessage = document.createElement('label');
   cvvMessage.textContent = "Please enter a CVV code";
   cvvMessage.style.display = 'none';
 
+const submitMessage = document.createElement('label');
+  submitButton.insertAdjacentElement('afterend', submitMessage);
+  submitMessage.className = 'valid-message';
+  submitMessage.textContent = "Please correct any fields that are invalid or missing";
+  submitMessage.style.display = 'none';
+
 // Function checks that a name has been entered
 function validName() {
   if (name.value) {
@@ -306,17 +315,15 @@ function validateAll() {
   }
 }
 
-// Disables the submit button unless all inputs are valid
-const submitButton = document.querySelector('button');
-  submitButton.disabled = 'true';
+// Disables the submit button unless all inputs are valid 
+// and displays an error message if button is disabled
 document.addEventListener('change', e => {
   console.log(String(validateAll()));
   if (validateAll()) {
-    submitButton.disabled = '';;
+    submitButton.disabled = '';
+    submitMessage.style.display = 'none'
   } else {
     submitButton.disabled = 'true';
+    submitMessage.style.display = ''
   }
 });
-
-// //TO-DO
-// Write messages for when submit button is disabled
