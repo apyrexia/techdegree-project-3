@@ -108,15 +108,16 @@ activities.addEventListener("change", e => {
   }
 });
 
-// Hides the 'select payment method' option
+// Hides the 'select payment method' option and sets credit card to default
 for (i = 0; i < paymentOptions.length; i++) {
   if (paymentOptions[i].value === 'select method') {
     paymentOptions[i].style.display = 'none';
+  } else if (paymentOptions[i].value === 'credit card') {
+    paymentOptions[i].selected = 'selected'
   }
 }
 
 // Hides or displays relevant payment divs as selected
-CCDiv.style.display = 'none';
 paypalDiv.style.display = 'none';
 bitcoinDiv.style.display = 'none';
 
