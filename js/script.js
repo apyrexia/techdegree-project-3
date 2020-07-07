@@ -50,7 +50,7 @@ titleSelect.addEventListener("change", e => {
   }
 });
 
-// Filters available color options by t-shirt theme
+// Filters available color options by t-shirt theme and hides colors when no theme is selected
 for (i = 0; i < colorOptions.length; i++) {
 colorOptions[i].style.display = "none";
 };
@@ -205,7 +205,7 @@ name.addEventListener("input", e => {
     nameMessage.style.display = '';
   }
 });
-// Function checks that the user has entered a valid email
+// Function checks that the user has entered a valid email and changes message in real time
 function validMail() {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (email.value !== '' && regex.test(email.value)) {
@@ -337,7 +337,7 @@ document.addEventListener('change', e => {
   }
 });
 
-// Displays error messages when submit button is clicked
+// Displays error messages when submit button is clicked and scrolls up if email or name are not valid
 submitButton.addEventListener('click', e => {
   if (!validName() || !validMail()) {
     window.scrollTo({
