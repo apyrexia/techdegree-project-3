@@ -6,6 +6,7 @@ const titleSelect = document.getElementById('title');
 
 const colorSelect = document.getElementById('color');
 const colorOptions = document.querySelector("#color").children;
+const colorsDiv =  document.getElementById('colors-js-puns');
 const shirtDesign = document.getElementById('design');
 const colorDefault = document.createElement('option');
   colorSelect.appendChild(colorDefault);
@@ -32,7 +33,7 @@ const zip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 
 const submitButton = document.querySelector('button');
-  submitButton.disabled = 'true';
+  submitButton.type = 'button';
 
 // Focuses on the name field when page loads
 nameField.focus();
@@ -53,11 +54,13 @@ titleSelect.addEventListener("change", e => {
 for (i = 0; i < colorOptions.length; i++) {
 colorOptions[i].style.display = "none";
 };
+colorsDiv.style.display = 'none';
 
 shirtDesign.addEventListener("change", e => { 
   colorDefault.selected = "selected";
   if (e.target.value === "js puns") {
     colorDefault.textContent = "Please select a Color";
+    colorsDiv.style.display = '';
     for (i = 0; i < colorOptions.length; i++) {
       if (i < 3) {
         colorOptions[i].style.display = "";
@@ -67,6 +70,7 @@ shirtDesign.addEventListener("change", e => {
     };
   } else if (e.target.value === "heart js") {
     colorDefault.textContent = "Please select a Color";
+    colorsDiv.style.display = '';
     for (i = 0; i < colorOptions.length; i++) {
       if (i > 2 && i < 6) {
         colorOptions[i].style.display = "";
@@ -76,6 +80,7 @@ shirtDesign.addEventListener("change", e => {
     };
   } else if (e.target.value === "Select Theme") {
     colorDefault.textContent = "Please select a T-shirt theme";
+    colorsDiv.style.display = 'none';
     for (i = 0; i < colorOptions.length; i++) {
       colorOptions[i].style.display = "none";
       };
@@ -153,7 +158,7 @@ const nameMessage = document.createElement('label');
 const mailMessage = document.createElement('label');
   email.insertAdjacentElement('afterend', mailMessage);  
   mailMessage.className = 'valid-message';
-  mailMessage.textContent = "Please enter a valid email";
+  mailMessage.textContent = "Please enter an email";
   mailMessage.style.display = 'none';
 const activityMessage = document.createElement('label');
   activities.insertAdjacentElement('afterend', activityMessage);  
@@ -180,7 +185,7 @@ const cvvMessage = document.createElement('label');
 const submitMessage = document.createElement('label');
   submitButton.insertAdjacentElement('afterend', submitMessage);
   submitMessage.className = 'valid-message';
-  submitMessage.textContent = "Please correct fields that are invalid or missing";
+  submitMessage.textContent = "";
   submitMessage.style.display = 'none';
 
 // Function checks that a name has been entered
@@ -192,7 +197,7 @@ function validName() {
   }
 }
 // Displays validation message if no name is entered
-name.addEventListener("blur", e => {
+name.addEventListener("input", e => {
   const vname = validName();
   if (vname === true) {
     nameMessage.style.display = 'none';
@@ -205,19 +210,31 @@ function validMail() {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (email.value !== '' && regex.test(email.value)) {
     return true;
-  } else {
-    return false;
   }
+  if (email.value !== '' && !regex.test(email.value)) {
+    mailMessage.textContent = "Please enter a valid email example: sample@email.com"
+  }
+  if (email.value === '') {
+    mailMessage.textContent = "Please enter an email"
+  }
+  return false;
 }
 // Displays validation message if an invalid email is entered
-email.addEventListener("blur", e => {
-  const vmail = validMail();
-  if (vmail === true) {
+email.addEventListener("input", e => {
+  if (validMail()) {
     mailMessage.style.display = 'none';
   } else {
     mailMessage.style.display = '';
   }
 });
+email.addEventListener("blur", e => {
+  if (validMail()) {
+    mailMessage.style.display = 'none';
+  } else {
+    mailMessage.style.display = '';
+  }
+});
+
 // Function validates that at least one activity is selected
 function activityChecked() {
   for (i = 0; i < activityChecks.length; i++) {
@@ -246,7 +263,7 @@ function validCC() {
   }
 }
 // Displays message if an invalid CC number is entered
-ccNum.addEventListener("blur", e => {
+ccNum.addEventListener("input", e => {
   const cc = validCC();
   if (cc === true) {
     numMessage.style.display = 'none';
@@ -264,9 +281,8 @@ function validZip() {
   }
 }
 // Displays message if an invalid zip code has been entered
-zip.addEventListener("blur", e => {
-  const vzip = validZip();
-  if (vzip === true) {
+zip.addEventListener("input", e => {
+  if (validZip()) {
     zipMessage.style.display = 'none';
   } else {
     zipMessage.style.display = '';
@@ -282,7 +298,7 @@ function validCVV() {
   }
 }
 // Displays message if an invalid cvv number is entered
-cvv.addEventListener("blur", e => {
+cvv.addEventListener("input", e => {
   const vcvv = validCVV();
   if (vcvv === true) {
     cvvMessage.style.display = 'none';
@@ -313,14 +329,38 @@ function validateAll() {
 }
 
 // Disables the submit button unless all inputs are valid 
-// and displays an error message if the submit button is disabled
 document.addEventListener('change', e => {
-  console.log(String(validateAll()));
   if (validateAll()) {
-    submitButton.disabled = '';
-    submitMessage.style.display = 'none'
+    submitButton.type = 'submit';
   } else {
-    submitButton.disabled = 'true';
-    submitMessage.style.display = ''
+    submitButton.type = 'button';
   }
 });
+
+// Displays error messages when submit button is clicked
+submitButton.addEventListener('click', e => {
+  if (!validName() || !validMail()) {
+    window.scrollTo({
+      top: 200,
+      behavior: 'smooth'
+    });
+  }
+  if (!validName()) {
+    nameMessage.style.display = '';
+  } 
+  if (!validMail()) {
+    mailMessage.style.display = '';
+  } 
+  if (!activityChecked()) {
+    activityMessage.style.display = '';
+  } 
+  if (!validCC()) {
+    numMessage.style.display = '';
+  } 
+  if (!validZip()) {
+    zipMessage.style.display = '';
+  } 
+  if (!validCVV()) {
+    cvvMessage.style.display = '';
+  }
+})
